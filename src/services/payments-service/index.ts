@@ -3,9 +3,9 @@ import { notFoundError, unauthorizedError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import paymentsRepositories, { PaymentType } from '@/repositories/payments-repository';
 
-async function makePayment(ticketId: number, userId: number, cardData: PaymentType ) {
+async function makePayment(ticketId: number, userId: number, cardData: PaymentType) {
   const tType = await ticketsRepository.getUsersTicketWithType(ticketId);
-  
+
   const paymentInfo = {
     ticketId,
     value: tType.TicketType.price,

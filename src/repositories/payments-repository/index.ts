@@ -1,4 +1,4 @@
-import { Payment } from "@prisma/client";
+import { Payment } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function postPayment(ticketId: number, paymentInfo: PaymentType) {
@@ -9,8 +9,8 @@ async function postPayment(ticketId: number, paymentInfo: PaymentType) {
     },
   });
 }
- 
-export type PaymentType = Omit<Payment, "id" | "updatedAt" | "createdAt">
+
+export type PaymentType = Omit<Payment, 'id' | 'updatedAt' | 'createdAt'>;
 
 async function getPaymentByTicketId(ticketId: number) {
   return prisma.payment.findFirst({
@@ -19,7 +19,6 @@ async function getPaymentByTicketId(ticketId: number) {
     },
   });
 }
-
 
 const paymentsRepositories = {
   postPayment,

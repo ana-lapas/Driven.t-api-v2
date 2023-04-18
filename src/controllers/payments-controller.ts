@@ -10,20 +10,20 @@ export async function postPayment(req: AuthenticatedRequest, res: Response) {
   try {
     if (!ticketId || !cardData) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
-    };
+    }
 
     const newPayment = await paymentsService.makePayment(ticketId, userId, cardData);
     if (!newPayment) {
       return res.sendStatus(httpStatus.NOT_FOUND);
-    };
+    }
     return res.status(httpStatus.OK).send(newPayment);
   } catch (err) {
-    if (err.name === "UnauthorizedError") {
+    if (err.name === 'UnauthorizedError') {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
-};
+}
 
 export async function getPaymentId(req: AuthenticatedRequest, res: Response) {
   const ticketId = Number(req.query.ticketId) as number;
@@ -32,13 +32,13 @@ export async function getPaymentId(req: AuthenticatedRequest, res: Response) {
   try {
     if (!ticketId) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
-    };
+    }
     const newPayment = await paymentsService.getPaymentFromTicketId(ticketId);
     if (!newPayment) {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
-    };
+    }
     return res.status(httpStatus.OK).send(newPayment);
   } catch (err) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
-};
+}

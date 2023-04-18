@@ -33,7 +33,7 @@ async function getUsersTicketWithType(ticketId: number) {
     },
     include: {
       TicketType: true,
-    }
+    },
   });
 }
 
@@ -44,7 +44,7 @@ async function makeTicketsPayment(ticketId: number) {
     },
     data: {
       status: TicketStatus.PAID,
-    }
+    },
   });
 }
 
