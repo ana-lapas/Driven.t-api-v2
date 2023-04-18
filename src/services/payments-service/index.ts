@@ -23,7 +23,7 @@ async function makePayment(ticketId: number, userId: number, cardData: PaymentTy
 async function getPaymentFromTicketId(ticketId: number) {
   const payments = await paymentsRepositories.getPaymentByTicketId(ticketId);
 
-  if (!payments) throw notFoundError();
+  if (!payments) throw unauthorizedError();
 
   return payments;
 }
