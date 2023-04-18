@@ -4,6 +4,6 @@ import { getPaymentId, postPayment } from '@/controllers/payments-controller';
 
 const paymentsRouter = Router();
 
-paymentsRouter.all('/*', authenticateToken).get('/payments', getPaymentId).post('/payments/process', postPayment);
+paymentsRouter.all('/*', authenticateToken).get('/', getPaymentId).post('/process', postPayment);
 
 export { paymentsRouter };
