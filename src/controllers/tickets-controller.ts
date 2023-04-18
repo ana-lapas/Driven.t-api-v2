@@ -3,15 +3,14 @@ import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import ticketsService from '@/services/tickets-service';
 
-async function postTickets(req: AuthenticatedRequest, res: Response) {
+export async function postTickets(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const { ticketTypeId } = req.body;
 
-  if (!ticketTypeId) {
-    return res.sendStatus(httpStatus.BAD_REQUEST);
-  }
-
   try {
+    if (!ticketTypeId) {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
     const ticket = await ticketsService.createUserTicket(userId, ticketTypeId);
     return res.status(httpStatus.CREATED).send(ticket);
   } catch (err) {
@@ -19,7 +18,7 @@ async function postTickets(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-async function getTickets(req: AuthenticatedRequest, res: Response) {
+export async function getTickets(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   try {
     const ticket = await ticketsService.getUserTicket(userId);
@@ -29,7 +28,7 @@ async function getTickets(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-async function getTicketsType(req: Request, res: Response) {
+export async function getTicketsType(req: Request, res: Response) {
   try {
     const ticketType = await ticketsService.getTicketType();
     return res.status(httpStatus.OK).send(ticketType);
@@ -37,9 +36,3 @@ async function getTicketsType(req: Request, res: Response) {
     return res.sendStatus(httpStatus.NO_CONTENT);
   }
 }
-
-export default {
-  getTicketsType,
-  postTickets,
-  getTickets,
-};

@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import paymentsService from '@/services/payments-service';
 
-async function postPayment(req: AuthenticatedRequest, res: Response) {
+export async function postPayment(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const { ticketId, cardData } = req.body;
 
@@ -18,12 +18,15 @@ async function postPayment(req: AuthenticatedRequest, res: Response) {
     };
     return res.status(httpStatus.OK).send(newPayment);
   } catch (err) {
+    if (err.name === "UnauthorizedError") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
-}
+};
 
-async function getPaymentId(req: AuthenticatedRequest, res: Response) {
-  const ticketId = Number(req.query.ticketId);
+export async function getPaymentId(req: AuthenticatedRequest, res: Response) {
+  const ticketId = Number(req.query.ticketId) as number;
   const { userId } = req;
 
   try {
@@ -32,15 +35,10 @@ async function getPaymentId(req: AuthenticatedRequest, res: Response) {
     };
     const newPayment = await paymentsService.getPaymentFromTicketId(ticketId);
     if (!newPayment) {
-      return res.sendStatus(httpStatus.NOT_FOUND);
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
     };
     return res.status(httpStatus.OK).send(newPayment);
   } catch (err) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
-}
-
-export default {
-  getPaymentId,
-  postPayment,
 };
